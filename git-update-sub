@@ -1,18 +1,18 @@
 #!/bin/sh
 set -e
 
-if [[ "$1" = "--h" ]] ; then
-   echo "Updates the passed submodule to latest: ";
-   echo "  - git update-sub <name>";
-   echo ""
-   echo "Afterwards, the changes will be commited and asked to push to origin"
-   echo "You can pass --all to update all submodules"
-   exit 1;
+if [[ "$1" == "--h" ]]; then
+	echo "Updates the passed submodule to latest: "
+	echo "  - git update-sub <name>"
+	echo ""
+	echo "Afterwards, the changes will be commited and asked to push to origin"
+	echo "You can pass --all to update all submodules"
+	exit 1
 fi
 
 target=${1%/}
 
-if [[ "${target,,}" = "--all" ]] ; then
+if [[ "${target,,}" == "--all" ]]; then
 	git submodule foreach git pull origin master
 
 	echo "now the submodules are in the state we want, so commit"
@@ -34,12 +34,14 @@ else
 	echo "now the submodule is in the state we want, so commit"
 	git commit -am "Pulled down update to $target"
 fi
-	
-	
+
 echo "Do you want to push to origin?"
 select yn in "Yes" "No"; do
-    case $yn in
-        Yes ) git push origin HEAD; break;;
-        No ) break;;
-    esac
+	case $yn in
+	Yes)
+		git push origin HEAD
+		break
+		;;
+	No) break ;;
+	esac
 done
